@@ -1,0 +1,62 @@
+﻿UC11
+- Commis, dans le profil de la voiture, il peut ajouter une note. Une fois écrite, sa redirige au profil de la voiture
+
+
+
+----- DONE -----
+
+- UC1 - Done
+- UC2 - Done
+- UC3 - Done
+- UC4 - Done
+- UC5 - Done 
+- UC6 - Done
+- UC7 - Done
+- UC8 - Done
+- UC9 - Done
+- UC10 - Done 
+- UC12 - Done 
+- UC13 - Done
+- UC14 - Done
+- UC15 - Done
+- UC16 - Done
+- UC17 - Done
+- UC18 - Done 
+- UC19 - Done
+- UC20 - Done
+- UC21 - Done
+- UC22 - Done
+- UC23 - Done
+
+
+
+- Dans la création, on devrait avoir l'option de mettre une note 
+- le commis peux ajouter une note a la création du rental
+- enlever le edit de car
+- Ajouter detail de car
+- enlever supprimer le car
+- Car doit avoir une succ
+- mettre formulaire pour ajouter adresse dans branch ( pour optionnel)
+- Vérifier les validations pour les optionnels (pour branch)
+- Ajouter le if model.valide (dans branch)
+- Ajouter dispo dans liste de char(dans branch)
+- Mettre btn pour aller vers char (dans branch) 
+- enlever adresse (dans branch)
+- Mettre le mot de passe en * OK
+- Colonne status, remettre available OK
+- enum pour available OK
+- Peux pas add un car dans un branch pas activer OK
+- Peux pas louer un car pas activé OK
+- Commis peux ajouter une note a une location qui existe deja
+- A partir de la liste de voiture avoir un bouton "profil"
+- mot de passe autogénéré dans le password ET dans le confirme password
+- Lors de la fermeture de la location, le Commis peux ajouter une note a la location.
+- nbr de voiture archiver dans Branch a afficher et nbr de voitures non archiver - ok
+- Commis doit voir juste les voiture non archiver - ok
+- A partir de Branch, un commis peux voir la liste des locations OK
+-Gérant peux Archiver une voiture désactivé. Redirige vers la liste des voitures - OK
+- Gérant peux activer la voiture. Une fois fait, redirige vers la liste des voitures. - OK
+-Commis peux désactiver la voiture. Une fois fait, redirige vers la liste des voitures. - OK
+- En appuyant sur le bouton "profil", Commis peux voir TOUTES les détails de la voiture, ainsi qu'un journal de locations associées 
+	(donc toute les locations en cours et passée) OK 
+

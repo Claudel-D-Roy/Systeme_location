@@ -1,0 +1,321 @@
+﻿@model IEnumerable<Tp1_WebApplication.ViewModels.RentalsManageViewModel>
+
+@{
+    ViewData["Title"] = "Manage Rental";
+}
+
+<h1>Manage Rental</h1>
+
+
+
+@if (Model != null && Model.Any())
+{
+    <form asp-controller="Rental" asp-action="Manage" method="post">
+        <div class="form-group">
+            <label for="branchName">Choose branch :</label>
+            <input type="hidden" name="BranchId" value="@Model.First().BranchId" />
+            @Html.DropDownListFor(model => model.FirstOrDefault().branchName,
+        new SelectList(Model.FirstOrDefault().branchList),
+        new { @class = "form-control", onchange = "this.form.submit();" })
+        </div>
+    </form>
+}
+else
+{
+    <form asp-controller="Rental" asp-action="Manage" method="post">
+        <div class="form-group">
+            <label for="branchName">Choose branch :</label>
+            <select class="form-control" disabled>
+                <option>No branches available</option>
+            </select>
+        </div>
+    </form>
+}
+
+
+<div class="mt-2 mb-2">
+
+    @if (Model != null && Model.Any())
+    {
+        @Html.ActionLink("List of cars", "Manage", "Car", new {BranchId = Model.FirstOrDefault().BranchId}, new { @class = "btn btn-primary" })
+        @Html.ActionLink("List of drivers", "Manage", "Driver", new {BranchId = Model.FirstOrDefault().BranchId}, new { @class = "btn btn-primary" })
+        @Html.ActionLink("List of branches", "Manage", "Branch", new {BranchId = Model.FirstOrDefault().BranchId}, new { @class = "btn btn-primary" })
+    }
+    else
+    {
+        @Html.ActionLink("List of rentals", "Manage", "Rental", null, new { @class = "btn btn-primary disabled" })
+        @Html.ActionLink("List of cars", "Manage", "Car", null, new { @class = "btn btn-primary disabled" })
+        @Html.ActionLink("List of branches", "Manage", "Branch", null,  new { @class = "btn btn-primary" })
+    }
+
+</div>
+<h2>Closed reservations</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CarName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SerialNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kilometers)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstimatedValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpeningDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosingDateTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.Where(d => d.closed == true && d.Id != 0))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SerialNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Registration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kilometers)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstimatedValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpeningDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosingDateTime)
+                </td>
+                <td>
+                    <div class="mt-2 mb-2">
+
+                        @Html.ActionLink("Detail", "Detail", new { id = item.Id, BranchId = item.BranchId },
+                    new { @class = "btn btn-secondary" })
+
+                    </div>
+                    @if (!item.closed)
+                    {
+                        <div class="mt-2 mb-2">
+                            @Html.ActionLink("Close", "Close", new { id = item.Id, BranchId = item.BranchId  },
+                    new { @class = "btn btn-danger" })
+                        </div>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2> </h2>
+<h2>Current reservations</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CarName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SerialNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kilometers)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstimatedValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpeningDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosingDateTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.Where(d => d.closed == false && d.Id != 0))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SerialNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Registration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kilometers)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstimatedValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpeningDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosingDateTime)
+                </td>
+                <td>
+                    <div class="mt-2 mb-2">
+                        @Html.ActionLink("Add comment", "AddComment", new { id = item.Id , BranchId = item.BranchId },
+                    new { @class = "btn btn-secondary" })
+
+                        @Html.ActionLink("Detail", "Detail", new { id = item.Id , BranchId = item.BranchId },
+                    new { @class = "btn btn-secondary" })
+
+                    </div>
+                    <div class="mt-2 mb-2">
+
+                        @Html.ActionLink("Close", "Close", new { id = item.Id, BranchId = item.BranchId  },
+                    new { @class = "btn btn-danger" })
+
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

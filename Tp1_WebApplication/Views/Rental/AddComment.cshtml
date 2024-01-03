@@ -1,0 +1,30 @@
+﻿@model Tp1_WebApplication.ViewModels.SimplifiedCommentViewModel
+
+@{
+    ViewData["Title"] = "Add Note";
+}
+
+<h1>Add a note</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Rental" asp-action="AddComment" method="post">
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" class="form-control"></textarea>
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+        <div class="form-group">
+            @Html.ActionLink("Back", "Manage", new { BranchId = ViewBag.BranchId }, new { @class = "btn btn-secondary" })
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Tp1_WebApplication.ViewModels.UserDetailViewModel>
+
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<h1>Manage Users</h1>
+
+@if (!string.IsNullOrEmpty(ViewBag.RemoveSuccessMessage))
+{
+    <div class="alert alert-success">@ViewBag.RemoveSuccessMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.CreateSuccessMessage))
+{
+    <div class="alert alert-success">@ViewBag.CreateSuccessMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.UserListErrorMessage))
+{
+    <div class="alert alert-danger">@ViewBag.UserListErrorMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(TempData["ResetSuccessMessage"] as string))
+{
+    <div class="alert alert-success">@TempData["ResetSuccessMessage"]</div>
+}
+
+<div class="mt-2 mb-2">
+    @Html.ActionLink("Create new user", "Create", "User", null, new { @class = "btn btn-primary" })
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoleName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    <a href="@Url.Action("ResetPwd", "Account", new { id = item.UserId })" class="btn btn-secondary">Reset Password</a>
+                    @using (Html.BeginForm("Remove", "User", new { id = item.UserId }, FormMethod.Post, false, new { @class = "d-inline" }))
+                    {
+                        <button type="submit" class="btn btn-danger delete-button">Delete</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.delete-button').on('click', function (e) {
+            e.preventDefault();
+            var confirmDelete = confirm('Are you sure you want to delete this user?');
+            if (confirmDelete) {
+                $(this).closest('form').submit();
+            }
+        });
+    });
+</script>

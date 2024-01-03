@@ -1,0 +1,89 @@
+﻿
+@model Tp1_WebApplication.ViewModels.RentalCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Rental";
+}
+
+<h1>Create Rental</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-route-BranchId="@ViewBag.BranchId">
+            <input type="hidden" asp-for="CarId" value="@ViewBag.CarId" />
+            <input type="hidden" asp-for="BranchId" value="@ViewBag.BranchId" /> 
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OpeningDate" class="control-label"></label>
+                <input asp-for="OpeningDate" class="form-control" />
+                <span asp-validation-for="OpeningDate" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="ClosingDate" class="control-label"></label>
+                <input asp-for="ClosingDate" class="form-control" />
+                <span asp-validation-for="ClosingDate" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StreetAddress" class="control-label"></label>
+                <input asp-for="StreetAddress" class="form-control" />
+                <span asp-validation-for="StreetAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DriverLicense" class="control-label"></label>
+                <input asp-for="DriverLicense" class="form-control" />
+                <span asp-validation-for="DriverLicense" class="text-danger"></span>
+            </div>
+
+            <h2>Add a note : </h2>
+            <div class="form-group">
+                <label asp-for="NoteContent" class="control-label"></label>
+                <textarea asp-for="NoteContent" class="form-control">Add a note : </textarea>
+            </div>
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IdentityProof" /> @Html.DisplayNameFor(model => model.IdentityProof)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AssuranceProof" /> @Html.DisplayNameFor(model => model.AssuranceProof)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                
+                    @Html.ActionLink("Back", "Manage",
+                    new {BranchId = Model.BranchId}, new { @class = "btn btn-secondary" })
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

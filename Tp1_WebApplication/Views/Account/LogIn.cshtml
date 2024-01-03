@@ -1,0 +1,39 @@
+﻿@model Tp1_WebApplication.ViewModels.LogInViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>User Login</h1>
+
+@if (!string.IsNullOrEmpty(ViewBag.LogoutSuccessMessage))
+{
+    <div class="alert alert-success">@ViewBag.LogoutSuccessMessage</div>
+}
+
+<form asp-action="LogIn" asp-route-returnUrl="@ViewBag.ReturnUrl">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pwd" class="control-label"></label>
+                <input asp-for="Pwd" class="form-control" />
+                <span asp-validation-for="Pwd" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

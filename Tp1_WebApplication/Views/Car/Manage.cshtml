@@ -1,0 +1,180 @@
+﻿@model IEnumerable<Tp1_WebApplication.ViewModels.CarManageViewModel>
+
+
+@{
+    ViewData["Title"] = "Manage Car";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+<h1>Manage Car</h1>
+
+<form asp-controller="Car" asp-action="Manage" method="post">
+    <div class="form-group">
+        <input type="hidden" name="BranchId" value="@Model.First().BranchId" />
+        <label for="availability">Availability:</label>
+        @Html.DropDownListFor(model => model.FirstOrDefault().Availability,
+        new SelectList(new List<string> { "All", "Available", "Not available" }),
+        new { @class = "form-control", onchange = "this.form.submit();" })
+    </div>
+</form>
+
+
+@if ((User?.IsInRole("Gérant") ?? true) || (User?.IsInRole("Administrator") ?? true))
+{
+    <div class="mt-2 mb-2">
+        @Html.ActionLink("Create new car", "Create", "Car", new {BranchId = Model.FirstOrDefault().BranchId}, new { @class = "btn btn-primary" })
+    </div>
+}
+
+<div class="mt-2 mb-2">
+    @Html.ActionLink("List of rentals", "Manage", "Rental", new {BranchId = Model.FirstOrDefault().BranchId}, new { @class = "btn btn-primary" })
+    @Html.ActionLink("List of drivers", "Manage", "Driver", new {BranchId = Model.FirstOrDefault().BranchId}, new { @class = "btn btn-primary" })
+    @Html.ActionLink("List of branches", "Manage", "Branch", new {BranchId = Model.FirstOrDefault().BranchId}, new { @class = "btn btn-primary" })
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CarName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Registration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    @using (Html.BeginForm("AddNote", "Car", FormMethod.Get))
+                    {
+                        <input type="hidden" name="id" value="@item.ID" />
+                        <input type="hidden" name="BranchId" value="@item.BranchId" />
+
+                        <button type="submit" class="btn btn-primary rental-button">Add a note</button>
+                    }
+                    @if (item.Availability == true && item.Activated && item.Status == Tp1_CoreApplication.Enums.Status.Active)
+                    {
+                        @using (Html.BeginForm("Create", "Rental", FormMethod.Get))
+                        {
+                            <input type="hidden" name="id" value="@item.ID" />
+                            <input type="hidden" name="BranchId" value="@item.BranchId" />
+
+                            <button type="submit" class="btn btn-primary rental-button">Rental</button>
+                        }
+                    }
+                    @Html.ActionLink("Profile", "Edit", "Car", new { id = item.ID, BranchId = item.BranchId }, new { @class ="btn btn-primary" })
+                    @if (item.Status == Tp1_CoreApplication.Enums.Status.Active && item.Availability == true)
+                    {
+                        @using (Html.BeginForm("DeactivateCar", "Car", new { id = item.ID, BranchId = item.BranchId }, FormMethod.Post, false, new { @class = "d-inline" }))
+                        {
+                            <button type="submit" class="btn btn-warning deactivate-button">Deactivate</button>
+                        }
+                    }
+
+                    @if (User.IsInRole("Administrator") || User.IsInRole("Gérant"))
+                    {
+                        if (item.Status == Tp1_CoreApplication.Enums.Status.Inactive && item.Activated == false)
+                        {
+                            @using (Html.BeginForm("ActivateCar", "Car", new { id = item.ID, BranchId = item.BranchId }, FormMethod.Post, false, new { @class = "d-inline" }))
+                            {
+                                <button type="submit" class="btn btn-success activate-button">Activate</button>
+                            }
+                            @using (Html.BeginForm("ArchiveCar", "Car", new { id = item.ID, BranchId = item.BranchId }, FormMethod.Post, false, new { @class = "d-inline" }))
+                            {
+                                <button type="submit" class="btn btn-secondary archive-button">Archive</button>
+                            }
+                        }
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.delete-button').on('click', function (e) {
+            e.preventDefault();
+            var confirmDelete = confirm('Are you sure you want to delete this car ?');
+            if (confirmDelete) {
+                $(this).closest('form').submit();
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $('.archive-button').on('click', function (e) {
+            e.preventDefault();
+            var confirmArchive = confirm('Are you sure you want to archive this car ?');
+            if (confirmArchive) {
+                $(this).closest('form').submit();
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $('.activate-button').on('click', function (e) {
+            e.preventDefault();
+            var confirmArchive = confirm('Are you sure you want to activate this car ?');
+            if (confirmArchive) {
+                $(this).closest('form').submit();
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $('.deactivate-button').on('click', function (e) {
+            e.preventDefault();
+            var confirmArchive = confirm('Are you sure you want to disable this car ?');
+            if (confirmArchive) {
+                $(this).closest('form').submit();
+            }
+        });
+    });
+</script>

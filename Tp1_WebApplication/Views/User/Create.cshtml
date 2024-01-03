@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@model Tp1_WebApplication.ViewModels.UserCreateViewModel
+@inject RoleManager<IdentityRole<Guid>> roleManager
+
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<h1>Create User</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control"/>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoleId"></label>
+                <select asp-for="RoleId" asp-items="@(new SelectList(roleManager.Roles.Select(r => new { r.Id, r.Name }), "Id", "Name"))" class="form-control"></select>
+                <span asp-validation-for="RoleId"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pwd" class="control-label"></label>
+                <div class="input-group toggle-password">
+                    <input asp-for="Pwd" class="form-control" value="@Model.Pwd" />
+                    <button type="button" class="btn btn-outline-primary">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="Pwd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPwd"></label>
+                <div class="input-group toggle-password">
+                    <input asp-for="ConfirmPwd" class="form-control" value="@Model.ConfirmPwd" />
+                    <button type="button" class="btn btn-outline-primary">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="ConfirmPwd"></span>
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a href="@Url.Action("Manage", "User")" class="btn btn-secondary">Back</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordButton = $(this);
+            const passwordInputs = passwordButton.siblings('input');
+            const isPasswordVisible = passwordButton.hasClass('active');
+
+            passwordButton.toggleClass('active');
+            passwordInputs.attr('type', isPasswordVisible ? 'password' : 'text');
+        }
+
+        const visibilityButtons = $('.toggle-password button');
+        visibilityButtons.on('click', togglePasswordVisibility);
+        visibilityButtons.trigger('click');
+    </script>
+}
+
+

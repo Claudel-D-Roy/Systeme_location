@@ -1,0 +1,66 @@
+﻿@model Tp1_WebApplication.ViewModels.CarEditViewModel
+
+@{
+    ViewData["Title"] = "Car Edit";
+}
+
+<h1>@Model.CarName</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <dl class="row">
+            <dt class="col-sm-4">Status:</dt>
+            <dd class="col-sm-8">@Model.status</dd>
+
+            <dt class="col-sm-4">State:</dt>
+            <dd class="col-sm-8">@Model.State</dd>
+
+            <dt class="col-sm-4">Available:</dt>
+            <dd class="col-sm-8">@Model.Available</dd>
+
+            <dt class="col-sm-4">Car Name:</dt>
+            <dd class="col-sm-8">@Model.CarName</dd>
+
+            <dt class="col-sm-4">Registration:</dt>
+            <dd class="col-sm-8">@Model.Registration</dd>
+
+            <dt class="col-sm-4">Color:</dt>
+            <dd class="col-sm-8">@Model.Color</dd>
+
+            <dt class="col-sm-4">Kilometers:</dt>
+            <dd class="col-sm-8">@Model.Kilometers</dd>
+
+            <dt class="col-sm-4">Estimated Value:</dt>
+            <dd class="col-sm-8">@Model.EstimatedValue</dd>
+            @{
+                int count = 1;
+            }
+            @if (Model.Notes != null)
+            {
+                @foreach (var item in Model.Notes)
+                {
+                    <dt class="col-sm-4">Note @count:</dt>
+                    <dd class="col-sm-8">@item.NoteContent</dd>
+                    count++;
+                }
+            }
+            @{
+                count = 1;
+            }
+
+            @if (Model.Rentals != null)
+            {
+                @foreach (var item in Model.Rentals)
+                {
+                    <dt class="col-sm-4">Rental @count:</dt>
+                    <dd class="col-sm-8"></dd>
+                    <dd class="col-sm-8">@item.OpeningDate</dd>
+                    <dd class="col-sm-8">@item.ClosingDate</dd>
+                }
+            }
+        </dl>
+        <div class="form-group" style="margin-top: 10px;">
+            <a href="@Url.Action("Manage", "Car", new {BranchId = Model.BranchId})" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+</div>

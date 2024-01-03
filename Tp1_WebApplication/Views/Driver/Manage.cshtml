@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Tp1_WebApplication.ViewModels.DriverManagerViewModel>
+
+@{
+    ViewData["Title"] = "Manage Driver";
+}
+
+<h1>Manage Driver</h1>
+<div class="mt-2 mb-2">
+    @if (Model != null && Model.Any())
+    {
+        @Html.ActionLink("List of rentals", "Manage", "Rental", new { BranchId = Model.FirstOrDefault().BranchId }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("List of cars", "Manage", "Car", new { BranchId = Model.FirstOrDefault().BranchId }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("List of branches", "Manage", "Branch", new { BranchId = Model.FirstOrDefault().BranchId }, new { @class = "btn btn-primary" })
+    }
+    else
+    {
+        @Html.ActionLink("List of rentals", "Manage", "Rental", null, new { @class = "btn btn-primary disabled" })
+        @Html.ActionLink("List of cars", "Manage", "Car", null, new { @class = "btn btn-primary disabled" })
+        @Html.ActionLink("List of branches", "Manage", "Branch", null,  new { @class = "btn btn-primary" })
+    }
+    
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReservationCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateLastReservation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservationCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateLastReservation)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Detail", new {  id = item.id, BranchId = item.BranchId }, new {@class ="btn btn-primary" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

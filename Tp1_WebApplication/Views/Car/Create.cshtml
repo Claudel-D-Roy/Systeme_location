@@ -1,0 +1,104 @@
+﻿@model Tp1_WebApplication.ViewModels.CarCreateViewModel
+@using Tp1_CoreApplication.Enums;
+
+
+@{
+    ViewData["Title"] = "Create Car";
+}
+
+<h1>Create Car</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-route-BranchId="@ViewBag.BranchId">
+          
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="status" class="control-label"></label>
+                <select asp-for="status" class="form-control">
+                    <option value="">-- Select status --</option>
+                    @foreach (var car in Enum.GetValues(typeof(Status)))
+                    {
+                        <option value="@car">@car</option>
+                    }
+                </select>
+                <span asp-validation-for="status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <select asp-for="State" class="form-control">
+                    <option value="">-- Select State --</option>
+                    @foreach (var car in Enum.GetValues(typeof(States)))
+                    {
+                            <option value="@car">@car</option>
+                    }
+                </select>
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Available" /> @Html.DisplayNameFor(model => model.Available)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarName" class="control-label"></label>
+                <input asp-for="CarName" class="form-control" />
+                <span asp-validation-for="CarName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SerialNumber" class="control-label"></label>
+                <input asp-for="SerialNumber" class="form-control" />
+                <span asp-validation-for="SerialNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Registration" class="control-label"></label>
+                <input asp-for="Registration" class="form-control" />
+                <span asp-validation-for="Registration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Brand" class="control-label"></label>
+                <input asp-for="Brand" class="form-control" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model" class="control-label"></label>
+                <input asp-for="Model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Color" class="control-label"></label>
+                <input asp-for="Color" class="form-control" />
+                <span asp-validation-for="Color" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Kilometers" class="control-label"></label>
+                <input asp-for="Kilometers" class="form-control" />
+                <span asp-validation-for="Kilometers" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstimatedValue" class="control-label"></label>
+                <input asp-for="EstimatedValue" class="form-control" />
+                <span asp-validation-for="EstimatedValue" class="text-danger"></span>
+            </div>
+            <h2>Add a note : </h2>
+            <div class="form-group">
+                <label asp-for="NoteComment" class="control-label"></label>
+                <textarea asp-for="NoteComment" class="form-control">Add a note : </textarea>
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a href="@Url.Action("Manage", "Car", new {BranchId = Model.BranchId})" class="btn btn-secondary">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

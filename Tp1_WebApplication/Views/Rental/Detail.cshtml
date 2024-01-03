@@ -1,0 +1,91 @@
+﻿
+@model Tp1_WebApplication.ViewModels.RentalEditViewModel
+<h2>Rental Detail</h2>
+
+<div>
+    <h3>Car rental details</h3>
+    <dl class="dl-horizontal">
+        <input type="hidden" asp-for="Id" value="@ViewBag.RentalId" />
+        <input type="hidden" asp-for="BranchId" value="@ViewBag.BranchId" />
+        <dt>@Html.DisplayNameFor(m => m.CarName)</dt>
+        <dd>@Html.DisplayFor(m => m.CarName)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.SerialNumber)</dt>
+        <dd>@Html.DisplayFor(m => m.SerialNumber)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.Registration)</dt>
+        <dd>@Html.DisplayFor(m => m.Registration)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.State)</dt>
+        <dd>@Html.DisplayFor(m => m.State)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.Brand)</dt>
+        <dd>@Html.DisplayFor(m => m.Brand)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.Model)</dt>
+        <dd>@Html.DisplayFor(m => m.Model)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.Year)</dt>
+        <dd>@Html.DisplayFor(m => m.Year)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.Color)</dt>
+        <dd>@Html.DisplayFor(m => m.Color)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.Kilometers)</dt>
+        <dd>@Html.DisplayFor(m => m.Kilometers)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.EstimatedValue)</dt>
+        <dd>@Html.DisplayFor(m => m.EstimatedValue)</dd>
+    </dl>
+    <h3>Rental details</h3>
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(m => m.OpeningDate)</dt>
+        <dd>@Html.DisplayFor(m => m.OpeningDate)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.ClosingDate)</dt>
+        <dd>@Html.DisplayFor(m => m.ClosingDate)</dd>
+    </dl>
+    <h3>Driver details</h3>
+    <dl class="dl-horizontal">
+
+        <dt>@Html.DisplayNameFor(m => m.FirstName)</dt>
+        <dd>@Html.DisplayFor(m => m.FirstName)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.LastName)</dt>
+        <dd>@Html.DisplayFor(m => m.LastName)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.StreetAddress)</dt>
+        <dd>@Html.DisplayFor(m => m.StreetAddress)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.PhoneNumber)</dt>
+        <dd>@Html.DisplayFor(m => m.PhoneNumber)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.Email)</dt>
+        <dd>@Html.DisplayFor(m => m.Email)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.DriverLicense)</dt>
+        <dd>@Html.DisplayFor(m => m.DriverLicense)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.IdentityProof)</dt>
+        <dd>@Html.DisplayFor(m => m.IdentityProof)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.AssuranceProof)</dt>
+        <dd>@Html.DisplayFor(m => m.AssuranceProof)</dd>
+    </dl>
+    <h3>Notes</h3>
+        <dl class="dl-horizontal">
+            @foreach (var note in Model.note!)
+            {
+                <dt>@Html.DisplayFor(m => note.NotePostDate)</dt>
+                <dd>@Html.DisplayFor(m => note.NoteContent)</dd>
+            }
+
+        </dl>
+</div>
+<div class="mt-2 mb-2">
+    @Html.ActionLink("Back", "Manage",
+    new {BranchId = Model.BranchId}, new { @class = "btn btn-secondary" })
+</div>
+
+
+

@@ -1,0 +1,119 @@
+﻿@model IEnumerable<Tp1_WebApplication.ViewModels.BranchDetailViewModel>
+
+@{
+    ViewData["Title"] = "Manage Branches";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<h1>Manage branch</h1>
+
+@if (User.IsInRole("Administrator"))
+{
+    <div class="mt-2 mb-2">
+        @Html.ActionLink("Create new branch", "Create", new { }, new { @class = "btn btn-primary" })
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActiveBranch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountAvailable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountArchive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountNotArchive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                @if ((User?.IsInRole("Gérant") ?? true) || (User?.IsInRole("Administrator") ?? true))
+                {
+                    <td>
+                        <form method="post" action="@Url.Action("SetActive", "Branch")">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="checkbox" name="active" value="true" @(item.ActiveBranch ? "checked" : "") onchange="this.form.submit()" />
+                    </form>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <input type="checkbox" disabled="disabled" @(item.ActiveBranch ? "checked" : "") />
+                    </td>
+                }
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.CountAvailable)
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.CountArchive)
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.CountNotArchive)
+                </td>
+                <td>
+
+                    @Html.ActionLink("List of cars", "Manage", "Car", new { BranchId = item.Id }, new { @class = "btn btn-primary" })
+
+                    @if ((User?.IsInRole("Gérant") ?? true) || (User?.IsInRole("Administrator") ?? true))
+                    {
+                        @using (Html.BeginForm("Remove", "Branch", new { id = item.Id }, FormMethod.Post, false, new { @class = "d-inline" }))
+                        {
+                            <button type="submit" class="btn btn-danger delete-button">Supprimer</button>
+                        }
+                    }
+                </td>
+                <td>
+                 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Add jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Add the JavaScript for the delete confirmation pop-up -->
+<script>
+    $(document).ready(function () {
+        $('.delete-button').on('click', function (e) {
+            e.preventDefault();
+            var confirmDelete = confirm('Are you sure you want to delete this branch?');
+            if (confirmDelete) {
+                $(this).closest('form').submit();
+            }
+        });
+    });
+</script>

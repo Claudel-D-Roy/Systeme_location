@@ -1,0 +1,37 @@
+﻿@model Tp1_WebApplication.ViewModels.RentalCloseViewModel
+
+@{
+    ViewData["Title"] = "Close Rental";
+}
+
+<h1>Close Rental</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CloseRental" asp-route-BranchId="@ViewBag.BranchId">
+            <input type="hidden" asp-for="Id" value="@ViewBag.RentalId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ClosingDate" class="control-label"></label>
+                <input asp-for="ClosingDate" class="form-control" />
+                <span asp-validation-for="ClosingDate" class="text-danger"></span>
+            </div>
+            <h2>Add a note : </h2>
+            <div class="form-group">
+                <label asp-for="NoteContent" class="control-label"></label>
+                <textarea asp-for="NoteContent" class="form-control">Add a note : </textarea>
+            </div>
+            @using (Html.BeginForm("CloseRental", "Rental", new { Id = ViewBag.Id, BranchId = Model.BranchId }, FormMethod.Post))
+            {
+                <input type="submit" class="btn-danger" value="Close" />
+            }
+        </form>
+    </div>
+</div>
+
+<div class="mt-2 mb-2">
+    @Html.ActionLink("Back", "Manage",
+    new {BranchId = Model.BranchId}, new { @class = "btn btn-secondary" })
+</div>
+

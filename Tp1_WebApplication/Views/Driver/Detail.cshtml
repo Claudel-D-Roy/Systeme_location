@@ -1,0 +1,42 @@
+﻿@model Tp1_WebApplication.ViewModels.DriverDetailViewModel
+
+@{
+    ViewData["Title"] = "Driver Detail";
+}
+
+<h1>Driver Detail</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DriverLicense)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DriverLicense)
+        </dd>
+    </dl>
+    <h2>Rentals:</h2>
+    <ul>
+        @foreach (var rental in Model.Rentals)
+        {
+            <li>Opening DateTime : @rental.OpeningDate - Closing DateTime @rental.ClosingDate</li>
+        }
+    </ul>
+</div>
+<td>
+    @Html.ActionLink("Back to list", "Manage", new{ BranchId = Model.BranchId }, new { @class ="btn btn-primary" })
+</td>
+
